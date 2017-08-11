@@ -1,0 +1,47 @@
+{
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "extends": [
+      "google",
+      "plugin:react/recommended"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "block-scoped-var": 1,
+      "camelcase": 0,
+      "comma-dangle": 1,
+      "comma-spacing": [0, {"before": false, "after": true}],
+      "consistent-this": [0, "_this"],
+      "curly": [0, "multi"],
+      "dot-location": [0, "object"],
+      "eol-last": 1,
+      "eqeqeq": [2, "allow-null"],
+      "import/no-unresolved": 0,
+      "key-spacing": 0,
+      "new-cap": 0,
+      "no-loop-func": 0,
+      "no-mixed-spaces-and-tabs": 0,
+      "no-multi-spaces": 0,
+      "no-new": 0,
+      "no-underscore-dangle": 0,
+      "no-self-compare": 1,
+      "no-trailing-spaces": 0,
+      "no-undefined": 0,
+      "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+      "no-use-before-define": [0, "nofunc"],
+      "object-curly-spacing": 0,
+      "semi-spacing": 0,
+      "space-infix-ops": 0,
+      "space-unary-ops": 0,
+      "strict": 1,
+      "require-jsdoc": 0,
+      "quotes": [0, "single"]
+    }
+}
