@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 import {
   IndexRoute,
   Route,
-} from 'react-router';
-import App from 'shared/containers/App';
-import Game from 'game/containers/Game';
-import Leaderboard from 'leaderboard/containers/Leaderboard';
-import Settings from 'settings/containers/Settings';
+} from 'react-router'
+import App from 'client/shared/containers/App'
+import Game from 'client/game/containers/Game'
+import Leaderboard from 'client/leaderboard/containers/Leaderboard'
+import Settings from 'client/settings/containers/Settings'
 
 export default (
   <Route path="/" component={App}>
@@ -14,4 +14,4 @@ export default (
     <Route path="leaderboard" component={Leaderboard} />
     <Route path="settings" component={Settings} />
   </Route>
-);
+)

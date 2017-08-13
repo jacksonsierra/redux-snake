@@ -1,22 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import {
   Provider,
-} from 'react-redux';
+} from 'react-redux'
 import {
   Router,
   browserHistory,
-} from 'react-router';
+} from 'react-router'
 import {
   createStore,
   applyMiddleware,
-} from 'redux';
+} from 'redux'
 import {
   composeWithDevTools,
-} from 'redux-devtools-extension';
-import thunk from 'thunk';
-import reducer from './reducers';
-import routes from './routes';
+} from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
+import reducer from 'client/reducers'
+import routes from 'client/routes'
 
 const store = createStore(
   reducer,
@@ -26,7 +26,7 @@ const store = createStore(
 if (__DEV__ && module.hot) {
   module.hot.accept('./reducers.js', () => {
     store.replaceReducer(reducer)
-  });
+  })
 }
 
 window.document.addEventListener('DOMContentLoaded', () => {
@@ -39,5 +39,5 @@ window.document.addEventListener('DOMContentLoaded', () => {
       />
     </Provider>,
     window.document.getElementById('root'),
-  );
-});
+  )
+})

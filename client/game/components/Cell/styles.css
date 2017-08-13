@@ -1,0 +1,17 @@
+.container {}
+
+.number {
+  font-size: 0.5rem;
+}
+
+.snake {
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+
+.bug {
+  height: 100%;
+  width: 100%;
+  background-color: green;
+}
