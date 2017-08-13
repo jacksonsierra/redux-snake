@@ -1,28 +1,31 @@
-const webpack = require('webpack');
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const WebpackNotifierPlugin = require('webpack-bundle-tracker');
-const AutoPrefixer = require('autoprefixer');
-const PostCSSImport = require('postcss-import');
+const webpack = require('webpack')
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const WebpackNotifierPlugin = require('webpack-bundle-tracker')
+const AutoPrefixer = require('autoprefixer')
+const PostCSSImport = require('postcss-import')
+const path = require('path')
 
-const devServerPort = 3809;
-const outputPath = path.join(__dirname, 'static', 'webpack');
-const clientPath = path.join(__dirname, 'client');
-const isDev = process.env.NODE_ENV === 'dev';
-
-const config = {
+module.exports = {
   devtool: 'cheap-module-source-map',
-  entry: {
-    client: ['./client/index.jsx'],
+  entry: [
+    'webpack-dev-server/client?http://localhost:3000',
+    'webpack/hot/only-dev-server',
+    'react-hot-loader/patch',
+    path.join(__dirname, 'client/index.jsx'),
+  ],
+  output: {
+    path: path.join(__dirname, '/dist/'),
+    filename: '[name].js',
+    publicPath: '/static/',
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
         use: [{
           loader: 'babel-loader',
         }],
-        include: [clientPath],
+        include: [path.join(__dirname, 'client')],
         exclude: /node_modules/,
       },
       {
@@ -51,64 +54,30 @@ const config = {
       },
     ],
   },
-  output: {
-    path: outputPath,
-    filename: isDev ? '[name].js' : '[name]-[chunkhash].js',
-    sourceMapFilename: isDev ? '[name].js.map' : '[name]-[chunkhash].js.map',
-  },
   plugins: [
+    new webpack.NamedModulesPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new WebpackNotifierPlugin(),
     new CaseSensitivePathsPlugin(),
     new webpack.DefinePlugin({
-      __DEV__: JSON.stringify(isDev),
+      __DEV__: JSON.stringify(process.env.NODE_ENV === 'development'),
     }),
   ],
   resolve: {
-    modules: [outputPath, 'node_modules'],
+    alias: {
+      client: path.resolve(__dirname, 'client'),
+    },
+    modules: [
+      path.join(__dirname, '/dist/'),
+      'node_modules',
+    ],
     extensions: ['.json', '.js', '.jsx', '*'],
   },
-};
-
-// Environment-dependent configuration settings
-if (isDev) {
-  config.plugins.push(
-    new webpack.HotModuleReplacementPlugin(),
-  );
-  config.devServer = {
-    port: devServerPort,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
+  devServer: {
+    host: 'localhost',
+    port: 3000,
+    historyApiFallback: true,
     hot: true,
-  };
-  config.output.publicPath = `http://localhost:${devServerPort}/client/`;
-  config.devtool = 'source-map';
-} else {
-  config.plugins.push(
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {warnings: false},
-      sourceMap: isDev,
-      mangle: false,
-    }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new ExtractTextPlugin({
-      filename: '[name]-[contenthash].css',
-      allChunks: true,
-      disable: false,
-    }),
-  );
-  config.module.rules[1].use = ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use: {
-      loader: 'css-loader',
-      options: {
-        modules: true,
-        importLoaders: 1,
-        localIdentName: '[name]-[local]-[hash:base64:5]',
-      },
-    },
-  });
+  },
 }
-
-module.exports = config;
